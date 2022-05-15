@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToken';
 import SocialLogin from './SocialLogin';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [
-        signInWithEmailAndPassword,
+    signInWithEmailAndPassword,
         user,
         loading,
         error,
@@ -22,7 +23,9 @@ const Login = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const from = location.state?.from?.pathname || "/";
-    if (user) {
+
+    const [token] = useToken(user);
+    if (token) {
         navigate(from, { replace: true });
     }
     const [sendPasswordResetEmail, sending, resetError] = useSendPasswordResetEmail(auth);
@@ -74,6 +77,7 @@ const Login = () => {
                                 }}
                             >Reset Now</span></p>
                             {resetError && <p className='text-red-500 p-2'>{resetError.message}</p>}
+                            {error && <p className='text-red-500 p-2'>{error.message}</p>}
                             {
                                 loading ?
                                     <button className="btn loading">loading</button> :

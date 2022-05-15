@@ -3,6 +3,7 @@ import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-fireb
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToken';
 import SocialLogin from './SocialLogin';
 const Register = () => {
     const [
@@ -13,16 +14,21 @@ const Register = () => {
     ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
+
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async data => {
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({ displayName: data.name })
+
         alert('Profile Created')
     };
+
     const location = useLocation()
     const navigate = useNavigate()
     const from = location.state?.from?.pathname || "/";
-    if (user) {
+    const [token] = useToken(user);
+    // useToken({ user: { email: 'cta@dfsdfsf.com' } });/
+    if (token) {
         navigate(from, { replace: true });
     }
     return (

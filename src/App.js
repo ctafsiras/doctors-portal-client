@@ -4,7 +4,9 @@ import './App.css';
 import AppoinmentPage from './components/AppointmentPage/AppoinmentPage';
 import Login from './components/Authentication/Login';
 import Register from './components/Authentication/Register';
+import RequireAdmin from './components/Authentication/RequireAdmin';
 import RequireAuth from './components/Authentication/RequireAuth';
+import AllUsers from './components/Dashboard/AllUsers';
 import Dashboard from './components/Dashboard/Dashboard';
 import MyAppointemnts from './components/Dashboard/MyAppointemnts';
 import MyReviews from './components/Dashboard/MyReviews';
@@ -23,6 +25,7 @@ function App() {
         <Route path='dashboard' element={<RequireAuth><Dashboard /></RequireAuth>}>
           <Route index element={<MyAppointemnts />} />
           <Route path='reviews' element={<MyReviews />} />
+          <Route path='users' element={<RequireAdmin><AllUsers /></RequireAdmin>} />
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
