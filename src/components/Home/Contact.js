@@ -10,7 +10,7 @@ const Contact = () => {
             </div>
             <input type="text" placeholder="Email Address" className="input input-bordered w-full max-w-xs mt-4" /><br />
             <input type="text" placeholder="Subject" className="input input-bordered w-full max-w-xs mt-4" /><br />
-            <textarea className="textarea w- mt-4" placeholder="Your Message"></textarea><br />
+            <textarea className="textarea w-1/4 mt-4" placeholder="Your Message"></textarea><br />
             <button className="btn btn-primary mt-4">Submit</button>
         </div>
     );
