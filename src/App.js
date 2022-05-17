@@ -6,6 +6,7 @@ import Login from './components/Authentication/Login';
 import Register from './components/Authentication/Register';
 import RequireAdmin from './components/Authentication/RequireAdmin';
 import RequireAuth from './components/Authentication/RequireAuth';
+import AddDoctor from './components/Dashboard/AddDoctor';
 import AllUsers from './components/Dashboard/AllUsers';
 import Dashboard from './components/Dashboard/Dashboard';
 import MyAppointemnts from './components/Dashboard/MyAppointemnts';
@@ -26,6 +27,7 @@ function App() {
           <Route index element={<MyAppointemnts />} />
           <Route path='reviews' element={<MyReviews />} />
           <Route path='users' element={<RequireAdmin><AllUsers /></RequireAdmin>} />
+          <Route path='addDoctor' element={<AddDoctor><AllUsers /></AddDoctor>} />
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />

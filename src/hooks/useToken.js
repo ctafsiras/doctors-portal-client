@@ -4,7 +4,7 @@ const useToken = (user) => {
     const [token, setToken] = useState('');
     const email = user?.user?.email;
     const currentUser = { email };
-    
+
     useEffect(() => {
         if (email) {
             fetch(`http://localhost:4000/user/${email}`, {
