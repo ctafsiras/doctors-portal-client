@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 
 const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
-    const { _id, available, name } = treatment;
+    const { _id, available, name, price } = treatment;
     const treatmentDate = format(selected, 'PP');
     const handleBooking = (e) => {
         e.preventDefault();
@@ -16,6 +16,7 @@ const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
             treatmentName: name,
             treatmentDate,
             slot,
+            price,
             patient: user.email,
             patientName: user.displayName,
             patientPhone: user.phoneNumber
