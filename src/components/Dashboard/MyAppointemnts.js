@@ -1,7 +1,7 @@
 import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 
 const MyAppointemnts = () => {
@@ -11,10 +11,10 @@ const MyAppointemnts = () => {
     const [myAppointments, setMyAppointments] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:4000/booking?email=${user.email}`, {
+        fetch(`https://doctors-portal-servers.herokuapp.com/booking?email=${user.email}`, {
             method: 'GET',
             headers: {
-                'authorization': `Bearer ${localStorage.getItem('token')}`
+                authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
             .then(res => {
@@ -31,12 +31,11 @@ const MyAppointemnts = () => {
         return <div className='text-center'><button className="btn btn-square loading"></button></div>;
     };
 
-    console.log(myAppointments);
     return (
         <div>
             <h2>My Appointments {myAppointments.length}</h2>
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div className="overflow-x-auto">
+                <table className="table w-full">
 
                     <thead>
                         <tr>
@@ -44,6 +43,7 @@ const MyAppointemnts = () => {
                             <th>Treatment</th>
                             <th>Date</th>
                             <th>Slot</th>
+                            <th>Payment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,6 +55,10 @@ const MyAppointemnts = () => {
                                     <td>{a.treatmentName}</td>
                                     <td>{a.treatmentDate}</td>
                                     <td>{a.slot}</td>
+                                    <td>{(a.price && !a.paid) && <Link to={`/dashboard/payment/${a._id}`}><button className='btn btn-xs btn-secondary'>Pay</button></Link>}
+                                        {
+                                            a.paid && <span className='text-success'>Paid</span>
+                                        }</td>
                                 </tr>
                             )
                         }

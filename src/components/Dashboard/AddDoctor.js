@@ -1,18 +1,19 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
 
 const AddDoctor = () => {
 
 
-    const { data } = useQuery('servicename', () => fetch('http://localhost:4000/servicenames').then(res => res.json()))
+    const { data, isLoading } = useQuery('serviceName', () => fetch('https://doctors-portal-servers.herokuapp.com/serviceNames').then(res => res.json()))
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const onSubmit = async data => {
         const formData = new FormData();
         formData.append('image', data.image[0]);
-        const imgbb_api = 'c8f56afc194c4a22e2bf5fe88af356fd';
-        const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imgbb_api}`;
+        const img_bb_api = 'c8f56afc194c4a22e2bf5fe88af356fd';
+        const url = `https://api.imgbb.com/1/upload?expiration=600&key=${img_bb_api}`;
         fetch(url, {
             method: 'POST',
             body: formData
@@ -26,11 +27,29 @@ const AddDoctor = () => {
                         specialty: data.Specialty,
                         img: result.data.display_url
                     };
-
-                    console.log(doctor);
+                    fetch('https://doctors-portal-servers.herokuapp.com/doctors', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: `Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify(doctor)
+                    })
+                        .then(res => res.json())
+                        .then(inserted => {
+                            if (inserted.acknowledged) {
+                                toast.success('Update Successful');
+                            } else {
+                                toast.error('Update Failed');
+                            }
+                            reset();
+                        })
                 }
             })
     };
+    if (isLoading) {
+        return <div className='text-center'><button className="btn btn-square loading"></button></div>;
+    }
 
     return (
         <div>
@@ -75,7 +94,7 @@ const AddDoctor = () => {
                         {...register("Specialty", {
                             required: true
                         })}
-                        class="select select-bordered w-full max-w-xs">
+                        className="select select-bordered w-full max-w-xs">
                         {
                             data.map(service => <option
                                 value={service.name}

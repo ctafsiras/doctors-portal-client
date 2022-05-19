@@ -3,10 +3,10 @@ import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
 
 const AllUsers = () => {
-    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('http://localhost:4000/users', {
+    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('https://doctors-portal-servers.herokuapp.com/users', {
         method: 'GET',
         headers: {
-            'authorization': `Bearer ${localStorage.getItem('token')}`
+            authorization: `Bearer ${localStorage.getItem('token')}`
         }
     }).then(res => res.json()));
     if (isLoading) {
@@ -14,10 +14,10 @@ const AllUsers = () => {
     }
 
     function makeAdmin(email) {
-        fetch(`http://localhost:4000/user/admin/${email}`, {
+        fetch(`https://doctors-portal-servers.herokuapp.com/user/admin/${email}`, {
             method: 'PUT',
             headers: {
-                'authorization': `Bearer ${localStorage.getItem('token')}`
+                authorization: `Bearer ${localStorage.getItem('token')}`
             }
         }).then(res => {
             if (res.status === 403) {
@@ -35,8 +35,8 @@ const AllUsers = () => {
     return (
         <div>
             <h1>A;; user {users.length}</h1>
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div className="overflow-x-auto">
+                <table className="table w-full">
 
                     <thead>
                         <tr>
@@ -58,10 +58,10 @@ const AllUsers = () => {
                                             a.role !== 'admin' &&
                                             <button
                                                 onClick={() => makeAdmin(a.email)}
-                                                class="btn btn-sm">Make Admin</button>
+                                                className="btn btn-sm">Make Admin</button>
                                         }
                                     </td>
-                                    <td><button class="btn btn-sm">Remove User</button></td>
+                                    <td><button className="btn btn-sm">Remove User</button></td>
                                 </tr>
                             )
                         }

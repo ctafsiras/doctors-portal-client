@@ -7,7 +7,7 @@ const useToken = (user) => {
 
     useEffect(() => {
         if (email) {
-            fetch(`http://localhost:4000/user/${email}`, {
+            fetch(`https://doctors-portal-servers.herokuapp.com/user/${email}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -16,14 +16,12 @@ const useToken = (user) => {
             })
                 .then(res => res.json())
                 .then(data => {
-
-                    console.log(data)
                     setToken(data.token)
                     localStorage.setItem('token', data.token)
                 });
         }
 
-    }, [user])
+    }, [email, currentUser])
     return [token];
 };
 

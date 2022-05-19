@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 const useAdmin = (user) => {
     const email = user?.email;
     const [adminRole, setAdminRole] = useState(false);
+    const [adminLoading, setAdminLoading] = useState(true);
     useEffect(() => {
+
         if (email) {
-            fetch(`http://localhost:4000/admin/${email}`, {
+            fetch(`https://doctors-portal-servers.herokuapp.com/admin/${email}`, {
                 method: 'GET',
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`
@@ -13,12 +15,12 @@ const useAdmin = (user) => {
             })
                 .then(res => res.json())
                 .then(data => {
-
                     setAdminRole(data)
+                    setAdminLoading(false)
                 });
         }
-    }, [user])
-    return [adminRole];
+    }, [email])
+    return [adminRole, adminLoading];
 };
 
 export default useAdmin;

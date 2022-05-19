@@ -20,7 +20,7 @@ const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
             patientName: user.displayName,
             patientPhone: user.phoneNumber
         };
-        fetch('http://localhost:4000/booking', {
+        fetch('https://doctors-portal-servers.herokuapp.com/booking', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,10 +30,8 @@ const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    console.log('re', data.result)
                     toast.success(`Data Added ${bookingIfo.treatmentName} on ${bookingIfo.slot} on ${bookingIfo.treatmentDate}`);
                 } else {
-                    console.log('refa', data.result)
                     toast.error(`Already Exist ${data.result?.treatmentName} on ${data.result?.slot} on ${data.result?.treatmentDate}`);
                 }
                 refetch();

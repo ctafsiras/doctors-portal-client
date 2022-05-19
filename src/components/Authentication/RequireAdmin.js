@@ -6,9 +6,13 @@ import useAdmin from '../../hooks/useAdmin';
 
 const RequireAdmin = ({ children }) => {
     const [user, loading] = useAuthState(auth);
-    const [adminRole] = useAdmin(user);
+    const [adminRole, adminLoading] = useAdmin(user);
     const location = useLocation();
+
     if (loading) {
+        return <div className='text-center'><button className="btn btn-square loading"></button></div>;
+    }
+    if (adminLoading) {
         return <div className='text-center'><button className="btn btn-square loading"></button></div>;
     }
     if (!adminRole) {

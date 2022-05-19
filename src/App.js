@@ -9,8 +9,10 @@ import RequireAuth from './components/Authentication/RequireAuth';
 import AddDoctor from './components/Dashboard/AddDoctor';
 import AllUsers from './components/Dashboard/AllUsers';
 import Dashboard from './components/Dashboard/Dashboard';
+import ManageDoctor from './components/Dashboard/ManageDoctor';
 import MyAppointemnts from './components/Dashboard/MyAppointemnts';
 import MyReviews from './components/Dashboard/MyReviews';
+import Payment from './components/Dashboard/Payment';
 import Home from './components/Home/Home';
 import Footer from './components/Shared/Footer';
 import Navbar from './components/Shared/Navbar';
@@ -26,8 +28,10 @@ function App() {
         <Route path='dashboard' element={<RequireAuth><Dashboard /></RequireAuth>}>
           <Route index element={<MyAppointemnts />} />
           <Route path='reviews' element={<MyReviews />} />
+          <Route path='payment/:id' element={<Payment />} />
           <Route path='users' element={<RequireAdmin><AllUsers /></RequireAdmin>} />
-          <Route path='addDoctor' element={<AddDoctor><AllUsers /></AddDoctor>} />
+          <Route path='addDoctor' element={<RequireAdmin><AddDoctor /></RequireAdmin>} />
+          <Route path='manageDoctors' element={<RequireAdmin><ManageDoctor /></RequireAdmin>} />
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
